@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "jsx": "preserve",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "lib": ["ESNext", "DOM"], // Alterado para ser mais compatível
+    "skipLibCheck": true,
+    "noEmit": true, // Vamos manter este por enquanto
+
+    // --- Adicionado para corrigir o aviso ---
+    "forceConsistentCasingInFileNames": true,
+
+    // --- Configuração dos atalhos (alias) ---
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}

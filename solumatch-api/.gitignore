@@ -1,0 +1,16 @@
+# Ignorar dependências do Composer e do NPM
+/solumatch-api/vendor
+/solumatch-spa/node_modules
+
+# Ignorar arquivos de log e sistema
+/solumatch-api/storage/logs/laravel.log
+/solumatch-spa/dist
+/solumatch-spa/.DS_Store
+
+# Ignorar o arquivo de ambiente do Laravel (contém senhas!)
+/solumatch-api/.env
+
+# Arquivos do Editor/SO
+.vscode/
+.idea/
+Thumbs.db
