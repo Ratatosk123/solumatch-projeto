@@ -7,10 +7,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ */
+
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
-
+   use HasApiTokens, HasFactory, Notifiable;
+   
     protected $fillable = [
         'nome', 'email', 'password', 'tipo_usuario', 'cpf', 'cnpj',
         'numero', 'endereco', 'cep', 'sobre_mim',
@@ -18,12 +22,19 @@ class User extends Authenticatable
     ];
 
     protected $hidden = [
-        'password', 'remember_token', 'profile_picture' // Esconde o BLOB da imagem por padrão
+        'password', 'remember_token', 'profile_picture'
     ];
+    
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
 
-    // Relacionamento: Um usuário do tipo 'empresa' pode ter muitas vagas.
     public function vagas()
     {
         return $this->hasMany(Vaga::class);
     }
-}   
+}

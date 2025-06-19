@@ -9,14 +9,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
-    "lib": ["ESNext", "DOM"], // Alterado para ser mais compatível
+    "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
-    "noEmit": true, // Vamos manter este por enquanto
-
-    // --- Adicionado para corrigir o aviso ---
+    "noEmit": true,
     "forceConsistentCasingInFileNames": true,
-
-    // --- Configuração dos atalhos (alias) ---
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]

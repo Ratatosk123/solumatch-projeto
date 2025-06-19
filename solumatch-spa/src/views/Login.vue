@@ -1,14 +1,15 @@
 <template>
-  <section class="formulario-container">
-    <div class="formulario">
-      <img src="/logo.png" class="logo-form" alt="Logo SoluMatch"> <h1>Entrar no SoluMatch</h1>
+  <div class="form-wrapper">
+    <div class="form-container">
+      <img src="/logo.png" alt="SoluMatch Logo" class="logo">
+      <h1>Entrar no SoluMatch</h1>
 
       <div v-if="error" class="alert-danger">{{ error }}</div>
 
       <form @submit.prevent="handleLogin">
         <input 
           type="email" 
-          placeholder="E-mail" 
+          placeholder="Celular ou e-mail" 
           v-model="credentials.email" 
           required
         >
@@ -19,87 +20,55 @@
           required
         >
         
-        <button type="submit" class="btn_cadastrar" :disabled="loading">
+        <button type="submit" class="submit-btn" :disabled="loading">
           {{ loading ? 'Entrando...' : 'Entrar' }}
         </button>
       </form>
-      
-      <p>Não tem uma conta? <router-link to="/cadastro-usuario">Cadastre-se</router-link></p>
-      <p><router-link to="/esqueci-senha">Esqueceu a senha?</router-link></p>
+
+      <div class="links-footer">
+        <p><router-link to="/esqueci-senha">Esqueceu a senha?</router-link></p>
+        <p>
+          Não tem uma conta? 
+          <router-link to="/cadastro-usuario">Cadastre-se como Profissional</router-link> ou
+          <router-link to="/cadastro-empresa">como Empresa</router-link>.
+        </p>
+      </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script setup lang="ts">
+// 1. Importa os estilos compartilhados que já criamos para os formulários
+import '@/assets/css/form.css';
+
 import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAuthStore } from '@/stores/auth'; // Importamos nosso store de autenticação
+import { useAuthStore } from '@/stores/auth';
 
-// Instanciamos o roteador e o store para poder usá-los
 const router = useRouter();
 const authStore = useAuthStore();
 
-// 'reactive' é ótimo para agrupar dados de um formulário
 const credentials = reactive({
   email: '',
   password: ''
 });
 
-// 'ref' é usado para valores primitivos (boolean, string, number)
 const loading = ref(false);
 const error = ref('');
 
-// Função assíncrona que será chamada ao enviar o formulário
 const handleLogin = async () => {
   loading.value = true;
-  error.value = ''; // Limpa erros anteriores
+  error.value = '';
 
-  try {
-    // Chama a ação 'login' do nosso store, que por sua vez chama a API Laravel
-    const success = await authStore.login(credentials);
+  const success = await authStore.login(credentials);
 
-    if (success) {
-      // Se o login for bem-sucedido, redireciona para a página de trabalhos
-      router.push('/trabalhos');
-    } else {
-      // Se a ação 'login' do store retornar false, definimos uma mensagem de erro
-      error.value = 'E-mail ou senha incorretos. Tente novamente.';
-    }
-  } catch (err) {
-    // Tratamento de erros inesperados
-    error.value = 'Ocorreu um erro ao tentar fazer login. Por favor, tente mais tarde.';
-    console.error(err);
-  } finally {
-    // Este bloco sempre executa, seja em caso de sucesso ou falha
-    loading.value = false;
+  if (success) {
+    // Se o login for bem-sucedido, redireciona para a página de trabalhos
+    router.push('/trabalhos');
+  } else {
+    error.value = 'E-mail ou senha incorretos. Tente novamente.';
   }
+
+  loading.value = false;
 };
 </script>
-
-<style scoped>
-/* Copie os estilos relevantes do seu 'login.css' aqui para manter a aparência */
-.formulario-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background-image: linear-gradient(to bottom, #f2f6fd, #2474cf, #013b5f);
-}
-.formulario {
-    background-color: rgb(22, 22, 22);
-    padding: 3rem;
-    border-radius: 1rem;
-    color: white;
-    text-align: center;
-    width: 100%;
-    max-width: 400px;
-}
-.alert-danger {
-    color: #ff4d4d;
-    background-color: #ffeded;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 15px;
-}
-/* ... etc ... */
-</style>
