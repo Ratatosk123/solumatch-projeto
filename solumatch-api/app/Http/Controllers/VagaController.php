@@ -8,29 +8,23 @@ use Illuminate\Support\Facades\Auth;
 
 class VagaController extends Controller
 {
-    /**
-     * Lista todas as vagas disponíveis (com paginação e filtro).
-     */
     public function index(Request $request)
     {
-        $query = Vaga::with('empresa:id,nome')
-                     ->orderBy('data_postagem', 'desc');
+        $query = Vaga::with('empresa:id,nome')->latest('data_postagem');
 
-        if ($request->has('category') && $request->category !== 'Todos') {
+        if ($request->filled('category') && $request->category !== 'Todos') {
             $query->where('categoria', $request->category);
         }
 
-        $vagas = $query->paginate(10);
-        return response()->json($vagas);
+        return response()->json($query->paginate(10));
     }
 
-    /**
-     * Salva uma nova vaga no banco de dados.
-     */
     public function store(Request $request)
     {
-        // Garante que apenas usuários do tipo 'empresa' podem criar vagas
-        if (Auth::user()->tipo_usuario !== 'empresa') {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        if ($user->tipo_usuario !== 'empresa') {
             return response()->json(['message' => 'Apenas empresas podem postar vagas.'], 403);
         }
 
@@ -38,14 +32,19 @@ class VagaController extends Controller
             'titulo' => 'required|string|max:255',
             'descricao' => 'required|string',
             'categoria' => 'required|string',
-            // ... outras regras de validação para os campos da vaga
+            'tipo_contratacao' => 'required|string',
+            'requisitos' => 'nullable|string',
+            'localizacao' => 'nullable|string',
+            'salario' => 'nullable|numeric',
+            'tipo_orcamento' => 'required|in:fixo,por_hora',
         ]);
 
-        // Associa a vaga ao usuário (empresa) logado
-        $vaga = Auth::user()->vagas()->create($validatedData);
+        $vaga = $user->vagas()->create($validatedData);
 
         return response()->json($vaga, 201);
     }
-    
-    // ... (Aqui viriam os métodos show, update, destroy) ...
+
+    public function show(Vaga $vaga) { /* Lógica para ver uma vaga específica */ }
+    public function update(Request $request, Vaga $vaga) { /* Lógica para atualizar uma vaga */ }
+    public function destroy(Vaga $vaga) { /* Lógica para deletar uma vaga */ }
 }

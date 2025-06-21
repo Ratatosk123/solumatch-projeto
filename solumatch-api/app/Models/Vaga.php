@@ -14,10 +14,8 @@ class Vaga extends Model
         'tipo_contratacao', 'localizacao', 'salario', 'tipo_orcamento'
     ];
 
-    // Relacionamento: Uma vaga pertence a uma empresa (que é um Usuário)
     public function empresa()
     {
-        // Renomeamos para 'empresa' para clareza no código
         return $this->belongsTo(User::class, 'user_id');
     }
 }

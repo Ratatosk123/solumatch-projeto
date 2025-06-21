@@ -16,7 +16,9 @@
         <input type="email" placeholder="Seu melhor email:" v-model="formData.email" required>
         
         <input type="tel" placeholder="Telefone:" v-model="formData.telefone" v-imask="masks.telefone">
+        
         <input type="text" placeholder="CEP:" v-model="formData.cep" v-imask="masks.cep" @blur="buscarCep">
+        
         <input type="text" placeholder="Endereço:" v-model="formData.endereco">
         
         <input type="text" placeholder="CPF:" v-model="formData.cpf" v-imask="masks.cpf" required>
@@ -45,7 +47,7 @@ import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import apiClient from '@/api';
 
-// Máscaras específicas para este formulário
+// Máscaras para a diretiva v-imask
 const masks = {
   cpf: { mask: '000.000.000-00' },
   cep: { mask: '00000-000' },
@@ -56,20 +58,20 @@ const router = useRouter();
 const loading = ref(false);
 const errors = ref<Record<string, string[]> | null>(null);
 
-// Dados do formulário, com 'cpf' e tipo 'profissional'
+// Dados do formulário
 const formData = reactive({
   nome: '',
   email: '',
-  telefone: '' as any,
+  telefone: '',
   endereco: '',
-  cep: '' as any,
-  cpf: '' as any,
+  cep: '',
+  cpf: '',
   password: '',
   password_confirmation: '',
   tipo_usuario: 'profissional' as const
 });
 
-// Função para buscar o endereço (idêntica à do outro formulário)
+// Função para buscar o endereço a partir do CEP
 const buscarCep = async () => {
   const cepLimpo = String(formData.cep).replace(/\D/g, '');
   if (cepLimpo.length !== 8) return;
@@ -87,7 +89,7 @@ const buscarCep = async () => {
   }
 };
 
-// Função de registro (idêntica, a API já sabe o que fazer com o 'tipo_usuario')
+// Função de registro
 const handleRegister = async () => {
   loading.value = true;
   errors.value = null;

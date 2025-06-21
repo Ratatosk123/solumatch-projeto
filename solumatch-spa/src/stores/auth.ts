@@ -25,10 +25,7 @@ export const useAuthStore = defineStore('auth', () => {
       const response = await apiClient.post('/api/login', credentials);
       token.value = response.data.token;
       user.value = response.data.user;
-
-      if (token.value) { // Correção para o erro de tipo
-        localStorage.setItem('token', token.value);
-      }
+      if (token.value) localStorage.setItem('token', token.value);
       localStorage.setItem('user', JSON.stringify(user.value));
       apiClient.defaults.headers.common['Authorization'] = `Bearer ${token.value}`;
       return true;
@@ -38,7 +35,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  loadUserFromStorage(); // Carrega o usuário ao iniciar
+  loadUserFromStorage();
 
   return { user, token, isAuthenticated, login };
 });

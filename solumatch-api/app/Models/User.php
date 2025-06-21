@@ -10,11 +10,10 @@ use Laravel\Sanctum\HasApiTokens;
 /**
  * @mixin \Illuminate\Database\Eloquent\Builder
  */
-
 class User extends Authenticatable
 {
-   use HasApiTokens, HasFactory, Notifiable;
-   
+    use HasApiTokens, HasFactory, Notifiable;
+
     protected $fillable = [
         'nome', 'email', 'password', 'tipo_usuario', 'cpf', 'cnpj',
         'numero', 'endereco', 'cep', 'sobre_mim',
