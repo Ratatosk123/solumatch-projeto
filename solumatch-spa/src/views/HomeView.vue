@@ -1,4 +1,28 @@
 <template>
+      <header class="header">
+        <nav class="navbar">
+            <router-link to="/"><a href="../templates/home.html">
+                <div class="logo">
+                    <img src="../assets/misc/logo2.png" width="50vh">
+                    <h2>Solu<span>Match</span></h2>
+                </div>
+            </a></router-link>
+
+            <div class="nav-links">
+                <router-link to="/login"><a class="login-link">Faça login</a></router-link>
+                <router-link to="/cadastro-usuario"><a class="cta-button">Cadastre-se</a></router-link>
+                <router-link to=""><a class="btn-suporte">Obtenha ajuda</a></router-link>
+            </div>
+
+            
+            
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
   <div class="main-content">
     <section class="hero">
       <div class="hero-content">
@@ -42,6 +66,7 @@
 </template>
 
 <script setup lang="ts">
+import '@/assets/css/nav_bar.css'
 // Para uma página estática como esta, a seção de script pode ser bem simples.
 // Não precisamos buscar dados ou ter uma lógica complexa.
 </script>

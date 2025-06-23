@@ -7,18 +7,24 @@ use Illuminate\Support\ServiceProvider;
 class AppServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * Registra quaisquer serviços da aplicação.
+     *
+     * Este método é usado para vincular coisas ao container de serviços do Laravel.
      */
     public function register(): void
     {
-        //
+        // Deixe vazio por enquanto.
     }
 
     /**
-     * Bootstrap any application services.
+     * Inicializa quaisquer serviços da aplicação.
+     *
+     * Este método é chamado depois que todos os outros 'providers'
+     * foram registrados. É aqui que você pode interagir com o framework,
+     * registrar 'listeners' de eventos, rotas, etc.
      */
     public function boot(): void
     {
-        //
+        // Deixe vazio por enquanto.
     }
 }

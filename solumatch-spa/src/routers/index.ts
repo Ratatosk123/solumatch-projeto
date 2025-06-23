@@ -7,6 +7,8 @@ import LoginView from '@/views/LoginView.vue'
 import TrabalhosView from '@/views/TrabalhosView.vue'
 import CadastroUsuarioView from '@/views/CadastroUsuario.vue' // <-- GARANTA QUE ESTA LINHA EXISTE
 import CadastroEmpresaView from '@/views/CadastroEmpresa.vue'
+import EsqueciSenhaView from '@/views/EsqueciSenha.vue'
+import ResetarSenhaview from '@/views/ResetarSenha.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,6 +39,16 @@ const router = createRouter({
       name: 'trabalhos',
       component: TrabalhosView,
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/esqueci-senha',
+      name:  'EsqueciSenha',
+      component: EsqueciSenhaView,
+    },
+    {
+      path: '/resetar-senha',
+      name: 'ResetarSenha', 
+      component: ResetarSenhaview,
     }
   ]
 })
