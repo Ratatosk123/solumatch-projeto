@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -8,14 +10,12 @@ use Illuminate\Support\Facades\Route;
 | API Routes
 |--------------------------------------------------------------------------
 |
-| Aqui é onde você pode registrar as rotas da sua API. Todas elas
-| recebem automaticamente o prefixo /api.
+| Este arquivo define as rotas da sua API.
 |
 */
 
 /**
  * Rota padrão do Laravel para buscar dados de um usuário autenticado.
- * É uma boa prática mantê-la para o futuro.
  */
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -23,17 +23,30 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 /**
- * ROTA PARA O CADASTRO DE USUÁRIO (POST /api/register)
+ * ROTA DE CADASTRO COMPLETA E CORRIGIDA (POST /api/register)
  * -----------------------------------------------------------------------
- * Esta é a rota que o seu frontend está tentando acessar.
- * Sem ela, o Laravel retorna o erro 404 Not Found.
+ * Utiliza 'nome' para alinhar com o frontend e o banco de dados.
  */
 Route::post('/register', function (Request $request) {
     
-    // Este código é para o teste final. Ele apenas confirma que a
-    // comunicação entre frontend e backend foi um sucesso.
+    // Valida os dados recebidos, esperando um campo 'nome'.
+    $request->validate([
+        'nome' => 'required|string|max:255', // Corrigido para 'nome'
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => 'required|string|min:8',
+    ]);
+
+    // Cria o usuário, inserindo o dado na coluna 'nome'.
+    $user = User::create([
+        'nome' => $request->nome, // Corrigido para 'nome'
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+    ]);
+
+    // Retorna a resposta de sucesso.
     return response()->json([
         'status' => 'success',
-        'message' => 'A ROTA FOI ENCONTRADA! Backend acessado com sucesso!'
-    ], 200); // Código 200 significa que a requisição foi bem-sucedida.
-}); 
+        'message' => 'Usuário criado com sucesso!',
+        'user' => $user
+    ], 201);
+});
