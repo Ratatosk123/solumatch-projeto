@@ -86,6 +86,8 @@ class Command extends SymfonyCommand
 
     /**
      * Create a new console command instance.
+     *
+     * @return void
      */
     public function __construct()
     {
@@ -101,7 +103,9 @@ class Command extends SymfonyCommand
         // Once we have constructed the command, we'll set the description and other
         // related properties of the command. If a signature wasn't used to build
         // the command we'll set the arguments and the options on this command.
-        if (isset($this->description)) {
+        if (! isset($this->description)) {
+            $this->setDescription((string) static::getDefaultDescription());
+        } else {
             $this->setDescription((string) $this->description);
         }
 
@@ -199,8 +203,8 @@ class Command extends SymfonyCommand
             ));
 
             return (int) (is_numeric($this->option('isolated'))
-                ? $this->option('isolated')
-                : $this->isolatedExitCode);
+                        ? $this->option('isolated')
+                        : $this->isolatedExitCode);
         }
 
         $method = method_exists($this, 'handle') ? 'handle' : '__invoke';
@@ -261,7 +265,7 @@ class Command extends SymfonyCommand
      * Fail the command manually.
      *
      * @param  \Throwable|string|null  $exception
-     * @return never
+     * @return void
      *
      * @throws \Illuminate\Console\ManuallyFailedException|\Throwable
      */

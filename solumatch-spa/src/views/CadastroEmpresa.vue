@@ -12,7 +12,7 @@
       </div>
 
       <form @submit.prevent="handleRegister">
-        <input type="text" placeholder="Nome da Empresa:" v-model="formData.nome" required>
+        <input type="text" placeholder="Nome da Empresa:" v-model="formData.name" required>
         <input type="email" placeholder="Email de Contato:" v-model="formData.email" required>
         
         <input type="tel" placeholder="Telefone:" v-model="formData.telefone" v-imask="masks.telefone">
@@ -58,7 +58,7 @@ const errors = ref<Record<string, string[]> | null>(null);
 
 // Usando 'any' temporariamente para o telefone, pois a máscara pode retornar tipos diferentes
 const formData = reactive({
-  nome: '',
+  name: '',
   email: '',
   telefone: '' as any,
   endereco: '',

@@ -12,28 +12,28 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
+            // Colunas padrão do Laravel
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->timestamps();
-        });
+            $table->timestamps(); // Cria as colunas created_at e updated_at
 
-        Schema::create('password_reset_tokens', function (Blueprint $table) {
-            $table->string('email')->primary();
-            $table->string('token');
-            $table->timestamp('created_at')->nullable();
-        });
-
-        Schema::create('sessions', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
-            $table->string('ip_address', 45)->nullable();
-            $table->text('user_agent')->nullable();
-            $table->longText('payload');
-            $table->integer('last_activity')->index();
+            // ================================================
+            // SUAS COLUNAS PERSONALIZADAS (A CORREÇÃO ESTÁ AQUI)
+            // ================================================
+            $table->string('tipo_usuario')->nullable(); // ex: 'profissional' ou 'empresa'
+            $table->string('cpf')->nullable()->unique();
+            $table->string('cnpj')->nullable()->unique();
+            $table->string('numero')->nullable(); // Para o celular
+            $table->string('endereco')->nullable();
+            $table->string('cep')->nullable();
+            $table->text('sobre_mim')->nullable();
+            
+            // Adicione outras colunas se precisar
+            // $table->string('profile_picture')->nullable();
         });
     }
 
@@ -43,7 +43,5 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('users');
-        Schema::dropIfExists('password_reset_tokens');
-        Schema::dropIfExists('sessions');
     }
 };

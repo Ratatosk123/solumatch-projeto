@@ -12,7 +12,7 @@
       </div>
 
       <form @submit.prevent="handleRegister">
-        <input type="text" placeholder="Nome Completo:" v-model="formData.nome" required>
+        <input type="text" placeholder="Nome Completo:" v-model="formData.name" required>
         <input type="email" placeholder="Seu melhor email:" v-model="formData.email" required>
         
         <input type="tel" placeholder="Telefone:" v-model="formData.telefone" v-imask="masks.telefone">
@@ -60,7 +60,7 @@ const errors = ref<Record<string, string[]> | null>(null);
 
 // Dados do formulário
 const formData = reactive({
-  nome: '',
+  name: '',
   email: '',
   telefone: '',
   endereco: '',
