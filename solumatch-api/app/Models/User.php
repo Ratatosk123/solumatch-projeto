@@ -2,69 +2,60 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-/**
- * @mixin \Illuminate\Database\Eloquent\Builder
- */
-class User extends Authenticatable
+
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * Os atributos que podem ser atribuídos em massa.
-     *
-     * @var array<int, string>
-     */
+    /*--------------------------------------------------------------
+    | CAMPOS GRAVÁVEIS (mass assignment)
+    |--------------------------------------------------------------*/
     protected $fillable = [
-        'name', // Corrigido para corresponder à coluna do banco de dados
+        'name',
         'email',
         'password',
-        'tipo_usuario',
+
+        // campos extras que você adicionou à tabela users
+        'tipo_usuario',   // ex.: 'profissional', 'empresa'
         'cpf',
         'cnpj',
-        'numero',
+        'numero',         // telefone armazenado aqui
         'endereco',
         'cep',
         'sobre_mim',
-        'profile_picture',
-        'profile_picture_type'
     ];
 
-    /**
-     * Os atributos que devem ser ocultados nas serializações.
-     *
-     * @var array<int, string>
-     */
+    /*--------------------------------------------------------------
+    | CAMPOS OCULTOS nas respostas JSON
+    |--------------------------------------------------------------*/
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Os atributos que devem ser convertidos para tipos nativos.
-     *
-     * @var array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
+    /*--------------------------------------------------------------
+    | CASTS automáticos de tipos
+    |--------------------------------------------------------------*/
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
 
+    /*--------------------------------------------------------------
+    | MUTATORS / ACCESSORS
+    |--------------------------------------------------------------*/
     /**
-     * Define o relacionamento onde um Usuário pode ter muitas Vagas.
-     * (Assumindo que você tem um modelo Vaga)
+     * Armazena sempre a senha criptografada.
      */
-    public function vagas()
-    {
-        // Se você não tiver um modelo Vaga, pode comentar ou remover esta função.
-        // return $this->hasMany(Vaga::class);
-    }
+   public function setPasswordAttribute($value)
+{
+    $this->attributes['password'] = \Illuminate\Support\Facades\Hash::needsRehash($value)
+        ? bcrypt($value)
+        : $value;
+}
 }

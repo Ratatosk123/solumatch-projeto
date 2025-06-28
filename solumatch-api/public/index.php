@@ -3,6 +3,14 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 
+
+// INÍCIO DO CÓDIGO DE DEPURAÇÃO - REMOVER DEPOIS DE RESOLVER O PROBLEMA
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+// FIM DO CÓDIGO DE DEPURAÇÃO
+
+// O resto do ficheiro continua como está...
 define('LARAVEL_START', microtime(true));
 
 // Determine if the application is in maintenance mode...

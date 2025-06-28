@@ -81,7 +81,7 @@ const handleResetPassword = async () => {
   }
 
   try {
-    const response = await apiClient.post('/api/reset-password', formData);
+    const response = await apiClient.post('/reset-password', formData);
     message.value = response.data.message;
     success.value = true; // Marca como sucesso para esconder o formulário e mostrar o link de login
     

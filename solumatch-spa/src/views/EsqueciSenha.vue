@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import '@/assets/css/form.css'; // Reutilizando nosso CSS de formulários
+import '@/assets/css/form.css'
 import { ref } from 'vue';
 import apiClient from '@/api';
 
@@ -38,46 +38,25 @@ const resetLink = ref('');
 const handleForgotPassword = async () => {
   loading.value = true;
   successMessage.value = '';
+  resetLink.value = '';
+
   try {
-    const response = await apiClient.post('/api/forgot-password', { email: email.value });
-    successMessage.value = response.data.message;
-    resetLink.value = response.data.reset_link;
-  } catch (error) {
-    alert("E-mail não encontrado em nosso sistema.");
-    console.error(error);
+    const { data } = await apiClient.post('/forgot-password', { email: email.value });
+
+    successMessage.value = data.message;
+    resetLink.value = data.reset_link ?? '';   // pode vir undefined em produção
+  } catch (err: any) {
+    alert('E-mail não encontrado em nosso sistema.');
+    console.error(err);
   } finally {
     loading.value = false;
   }
 };
 
-const copiarLink = (event: Event) => {
-    const input = event.target as HTMLInputElement;
-    input.select();
-    document.execCommand('copy');
-    alert("Link copiado para a área de transferência!");
-}
+const copiarLink = () => {
+  if (resetLink.value) {
+    navigator.clipboard.writeText(resetLink.value);
+    alert('Link copiado para a área de transferência!');
+  }
+};
 </script>
-
-<style scoped>
-/* Estilos adicionais específicos para esta página */
-label {
-  display: block;
-  text-align: left;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: #ccc;
-}
-.alert-success {
-  background-color: rgba(40, 167, 69, 0.1);
-  border: 1px solid #28a745;
-  padding: 1rem;
-  border-radius: 8px;
-  color: #d4edda;
-  text-align: left;
-}
-.link-input {
-    width: 100%;
-    margin-top: 1rem;
-    cursor: pointer;
-}
-</style>

@@ -106,7 +106,7 @@ const handleRegister = async () => {
   };
 
   try {
-    await apiClient.post('/api/register', dadosParaEnviar);
+    await apiClient.post('/register', dadosParaEnviar);
     alert('Empresa cadastrada com sucesso! Você será redirecionado para o login.');
     router.push('/login');
   } catch (error: any) {

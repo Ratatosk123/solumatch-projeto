@@ -1,15 +1,12 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8000',
-  withCredentials: true,
+  baseURL: '/api',          // relativo → proxy do Vite cuida
+  withCredentials: true,    // se usar cookies/Sanctum
   headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  }
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
 });
 
-// AQUI ESTÁ A LINHA CRÍTICA:
-// Ela torna a variável 'apiClient' disponível para outros arquivos
-// como a exportação PADRÃO deste módulo.
 export default apiClient;

@@ -100,7 +100,7 @@ const handleRegister = async () => {
     telefone: String(formData.telefone).replace(/\D/g, ''),
   };
   try {
-    await apiClient.post('/api/register', dadosParaEnviar);
+    await apiClient.post('/register', dadosParaEnviar);
     alert('Cadastro realizado com sucesso! Você será redirecionado para o login.');
     router.push('/login');
   } catch (error: any) {
