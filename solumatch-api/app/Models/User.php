@@ -54,8 +54,13 @@ class User extends Authenticatable implements MustVerifyEmail
      */
    public function setPasswordAttribute($value)
 {
-    $this->attributes['password'] = \Illuminate\Support\Facades\Hash::needsRehash($value)
-        ? bcrypt($value)
-        : $value;
+    if ( \Illuminate\Support\Str::startsWith($value, '$2y$') ) {
+        // Já é um hash bcrypt, salva direto
+        $this->attributes['password'] = $value;
+    } else {
+        // Senha em texto plano, faz o hash
+        $this->attributes['password'] = bcrypt($value);
+    }
 }
+
 }

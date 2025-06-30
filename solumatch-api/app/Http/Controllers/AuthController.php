@@ -42,7 +42,7 @@ class AuthController extends Controller
             // Alterado de 'nome' para 'name'
             'name' => $validatedData['name'], 
             'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password']),
+            'password' => $validatedData['password'],
             'tipo_usuario' => $validatedData['tipo_usuario'],
             'cpf' => $validatedData['cpf'] ?? null,
             'cnpj' => $validatedData['cnpj'] ?? null,
