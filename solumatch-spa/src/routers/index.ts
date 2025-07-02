@@ -36,7 +36,7 @@ const router = createRouter({
     },
     {
       path: '/trabalhos',
-      name: 'trabalhos',
+      name: 'Trabalhos',
       component: TrabalhosView,
       meta: { requiresAuth: true }
     },
@@ -49,7 +49,7 @@ const router = createRouter({
       path: '/resetar-senha',
       name: 'ResetarSenha', 
       component: ResetarSenhaview,
-    }
+    },
   ]
 })
 

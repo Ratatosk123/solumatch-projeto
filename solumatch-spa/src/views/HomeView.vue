@@ -3,7 +3,7 @@
         <nav class="navbar">
             <router-link to="/"><a href="../templates/home.html">
                 <div class="logo">
-                    <img src="../assets/misc/logo2.png" width="50vh">
+                    <img src="../assets/misc/logo.png" width="50vh">
                     <h2>Solu<span>Match</span></h2>
                 </div>
             </a></router-link>

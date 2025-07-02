@@ -40,7 +40,6 @@
 <script setup lang="ts">
 // 1. Importa os estilos compartilhados que já criamos para os formulários
 import '@/assets/css/form.css';
-
 import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
